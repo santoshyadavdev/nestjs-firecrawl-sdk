@@ -23,9 +23,12 @@
     "noFallthroughCasesInSwitch": false,
     "customConditions": ["@firecrawl-sdk/source"],
     "paths": {
-      "@santoshyadavdev/firecrawl-nestjs": [
-        "../libs/firecrawl-nestjs-sdk/src/index.ts"
-      ]
+      "@santoshyadavdev/firecrawl-nestjs": ["../libs/firecrawl-nestjs-sdk/src/index.ts"]
     }
-  }
+  },
+  "references": [
+    {
+      "path": "../libs/firecrawl-nestjs-sdk"
+    }
+  ]
 }

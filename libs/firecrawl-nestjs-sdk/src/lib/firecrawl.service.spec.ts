@@ -2,27 +2,29 @@ import { describe, expect, it, vi } from 'vitest';
 import type { Firecrawl } from '@mendable/firecrawl-js';
 import { FirecrawlService } from './firecrawl.service.js';
 
+type AnyFn = (...args: any[]) => any;
+
 function createMockClient() {
   return {
-    scrape: vi.fn().mockResolvedValue({ markdown: 'ok' }),
-    crawl: vi.fn().mockResolvedValue({ status: 'completed' }),
-    startCrawl: vi.fn().mockResolvedValue({ id: 'job-1' }),
-    getCrawlStatus: vi.fn().mockResolvedValue({ status: 'scraping' }),
-    map: vi.fn().mockResolvedValue({ links: [] }),
-    search: vi.fn().mockResolvedValue({ web: [] }),
-    batchScrape: vi.fn().mockResolvedValue({ status: 'completed' }),
-    startBatchScrape: vi.fn().mockResolvedValue({ id: 'batch-1' }),
-    cancelCrawl: vi.fn().mockResolvedValue(true),
-    getCrawlErrors: vi.fn().mockResolvedValue({ errors: [] }),
-    getActiveCrawls: vi.fn().mockResolvedValue({ crawls: [] }),
-    getBatchScrapeStatus: vi.fn().mockResolvedValue({ status: 'scraping' }),
-    cancelBatchScrape: vi.fn().mockResolvedValue(true),
-    parse: vi.fn().mockResolvedValue({ markdown: 'parsed' }),
-    extract: vi.fn().mockResolvedValue({ data: {} }),
-    getConcurrency: vi.fn().mockResolvedValue({ concurrency: 1 }),
-    getCreditUsage: vi.fn().mockResolvedValue({ remainingCredits: 10 }),
-    getTokenUsage: vi.fn().mockResolvedValue({ remainingTokens: 100 }),
-    watcher: vi.fn().mockReturnValue({ on: vi.fn() }),
+    scrape: vi.fn<AnyFn>().mockResolvedValue({ markdown: 'ok' }),
+    crawl: vi.fn<AnyFn>().mockResolvedValue({ status: 'completed' }),
+    startCrawl: vi.fn<AnyFn>().mockResolvedValue({ id: 'job-1' }),
+    getCrawlStatus: vi.fn<AnyFn>().mockResolvedValue({ status: 'scraping' }),
+    map: vi.fn<AnyFn>().mockResolvedValue({ links: [] }),
+    search: vi.fn<AnyFn>().mockResolvedValue({ web: [] }),
+    batchScrape: vi.fn<AnyFn>().mockResolvedValue({ status: 'completed' }),
+    startBatchScrape: vi.fn<AnyFn>().mockResolvedValue({ id: 'batch-1' }),
+    cancelCrawl: vi.fn<AnyFn>().mockResolvedValue(true),
+    getCrawlErrors: vi.fn<AnyFn>().mockResolvedValue({ errors: [] }),
+    getActiveCrawls: vi.fn<AnyFn>().mockResolvedValue({ crawls: [] }),
+    getBatchScrapeStatus: vi.fn<AnyFn>().mockResolvedValue({ status: 'scraping' }),
+    cancelBatchScrape: vi.fn<AnyFn>().mockResolvedValue(true),
+    parse: vi.fn<AnyFn>().mockResolvedValue({ markdown: 'parsed' }),
+    extract: vi.fn<AnyFn>().mockResolvedValue({ data: {} }),
+    getConcurrency: vi.fn<AnyFn>().mockResolvedValue({ concurrency: 1 }),
+    getCreditUsage: vi.fn<AnyFn>().mockResolvedValue({ remainingCredits: 10 }),
+    getTokenUsage: vi.fn<AnyFn>().mockResolvedValue({ remainingTokens: 100 }),
+    watcher: vi.fn<AnyFn>().mockReturnValue({ on: vi.fn<AnyFn>() }),
   };
 }
 
