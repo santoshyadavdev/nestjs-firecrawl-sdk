@@ -16,6 +16,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@firecrawl-sdk/source"]
+    "customConditions": ["@firecrawl-sdk/source"],
+    "paths": {
+      "@firecrawl-sdk/firecrawl-nestjs-sdk": ["./libs/firecrawl-nestjs-sdk/src/index.ts"]
+    }
   }
 }
