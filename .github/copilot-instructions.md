@@ -15,7 +15,7 @@ This is an Nx monorepo that publishes `@santoshyadavdev/firecrawl-nestjs` — a 
 ## Conventions
 
 - The library is ESM (`"type": "module"`); internal relative imports use explicit `.js` extensions.
-- Delegated methods on `FirecrawlService` use `Parameters<Firecrawl['x']>` / `ReturnType<Firecrawl['x']>` so signatures track the SDK exactly. Follow this pattern when adding methods, and add a matching mock + test in `firecrawl.service.spec.ts`.
+- Delegated methods on `FirecrawlService` use `Parameters<Firecrawl['x']>` / `ReturnType<Firecrawl['x']>` so signatures track the SDK exactly. For overloaded SDK methods (e.g. `scrape`), use a property typed as `Firecrawl['x']` instead — `Parameters<>` collapses to the last overload. Follow these patterns when adding methods, and add a matching mock + test in `firecrawl.service.spec.ts`.
 - Multiple clients are keyed by `name`; injection tokens come from `getFirecrawlClientToken` / `getFirecrawlServiceToken`.
 - Don't hardcode API keys. Options fall back to `FIRECRAWL_API_KEY` / `FIRECRAWL_API_URL`.
 
