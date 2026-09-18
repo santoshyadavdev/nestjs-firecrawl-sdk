@@ -64,6 +64,39 @@ export class FirecrawlService {
   }
 
   /**
+   * Cancel a running crawl job.
+   *
+   * @see Firecrawl.cancelCrawl
+   */
+  cancelCrawl(
+    ...args: Parameters<Firecrawl['cancelCrawl']>
+  ): ReturnType<Firecrawl['cancelCrawl']> {
+    return this.firecrawl.cancelCrawl(...args);
+  }
+
+  /**
+   * Retrieve crawl errors and robots.txt blocks.
+   *
+   * @see Firecrawl.getCrawlErrors
+   */
+  getCrawlErrors(
+    ...args: Parameters<Firecrawl['getCrawlErrors']>
+  ): ReturnType<Firecrawl['getCrawlErrors']> {
+    return this.firecrawl.getCrawlErrors(...args);
+  }
+
+  /**
+   * List active crawls for the authenticated team.
+   *
+   * @see Firecrawl.getActiveCrawls
+   */
+  getActiveCrawls(
+    ...args: Parameters<Firecrawl['getActiveCrawls']>
+  ): ReturnType<Firecrawl['getActiveCrawls']> {
+    return this.firecrawl.getActiveCrawls(...args);
+  }
+
+  /**
    * Map a site to discover URLs (sitemap-aware).
    *
    * @see Firecrawl.map
@@ -103,5 +136,93 @@ export class FirecrawlService {
     ...args: Parameters<Firecrawl['startBatchScrape']>
   ): ReturnType<Firecrawl['startBatchScrape']> {
     return this.firecrawl.startBatchScrape(...args);
+  }
+
+  /**
+   * Get the status and partial data of a batch scrape job.
+   *
+   * @see Firecrawl.getBatchScrapeStatus
+   */
+  getBatchScrapeStatus(
+    ...args: Parameters<Firecrawl['getBatchScrapeStatus']>
+  ): ReturnType<Firecrawl['getBatchScrapeStatus']> {
+    return this.firecrawl.getBatchScrapeStatus(...args);
+  }
+
+  /**
+   * Cancel a running batch scrape job.
+   *
+   * @see Firecrawl.cancelBatchScrape
+   */
+  cancelBatchScrape(
+    ...args: Parameters<Firecrawl['cancelBatchScrape']>
+  ): ReturnType<Firecrawl['cancelBatchScrape']> {
+    return this.firecrawl.cancelBatchScrape(...args);
+  }
+
+  /**
+   * Parse an uploaded file (PDF, docs, etc.) into the requested formats.
+   *
+   * @see Firecrawl.parse
+   */
+  parse(
+    ...args: Parameters<Firecrawl['parse']>
+  ): ReturnType<Firecrawl['parse']> {
+    return this.firecrawl.parse(...args);
+  }
+
+  /**
+   * Extract structured data from URLs using a schema or prompt.
+   *
+   * @see Firecrawl.extract
+   */
+  extract(
+    ...args: Parameters<Firecrawl['extract']>
+  ): ReturnType<Firecrawl['extract']> {
+    return this.firecrawl.extract(...args);
+  }
+
+  /**
+   * Get current concurrency usage for the team.
+   *
+   * @see Firecrawl.getConcurrency
+   */
+  getConcurrency(
+    ...args: Parameters<Firecrawl['getConcurrency']>
+  ): ReturnType<Firecrawl['getConcurrency']> {
+    return this.firecrawl.getConcurrency(...args);
+  }
+
+  /**
+   * Get current credit usage for the team.
+   *
+   * @see Firecrawl.getCreditUsage
+   */
+  getCreditUsage(
+    ...args: Parameters<Firecrawl['getCreditUsage']>
+  ): ReturnType<Firecrawl['getCreditUsage']> {
+    return this.firecrawl.getCreditUsage(...args);
+  }
+
+  /**
+   * Get recent token usage for the team.
+   *
+   * @see Firecrawl.getTokenUsage
+   */
+  getTokenUsage(
+    ...args: Parameters<Firecrawl['getTokenUsage']>
+  ): ReturnType<Firecrawl['getTokenUsage']> {
+    return this.firecrawl.getTokenUsage(...args);
+  }
+
+  /**
+   * Create a watcher that emits events for a crawl or batch scrape job.
+   *
+   * @see Firecrawl.watcher
+   */
+  watcher(
+    ...args: Parameters<Firecrawl['watcher']>
+  ): ReturnType<Firecrawl['watcher']> {
+    return this.firecrawl.watcher(...args);
   }
 }
