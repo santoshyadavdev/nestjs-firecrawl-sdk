@@ -21,10 +21,14 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "customConditions": ["@firecrawl-sdk/source"],
+    "rootDir": "./src",
+    "types": ["node"],
     "paths": {
       "@santoshyadavdev/firecrawl-nestjs": ["../libs/firecrawl-nestjs-sdk/src/index.ts"]
     }
   },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "test", "**/*.spec.ts"],
   "references": [
     {
       "path": "../libs/firecrawl-nestjs-sdk"

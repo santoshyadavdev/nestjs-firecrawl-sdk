@@ -105,7 +105,7 @@ Anything else (agents, browser sessions, monitors, developer search, feedback) i
 ## Notes for contributors
 
 - The library is ESM; use explicit `.js` extensions on internal relative imports.
-- New delegated methods must use `Parameters<Firecrawl['x']>` / `ReturnType<Firecrawl['x']>` and get a mock + test in `firecrawl.service.spec.ts`.
+- New delegated methods must use `Parameters<Firecrawl['x']>` / `ReturnType<Firecrawl['x']>`. For overloaded SDK methods (e.g. `scrape`), use a property typed as `Firecrawl['x']` instead — `Parameters<>` collapses to the last overload. Always add a matching mock + test in `firecrawl.service.spec.ts`.
 - Run tests with `pnpm exec nx test firecrawl-nestjs-sdk`.
 
 See the library README at `libs/firecrawl-nestjs-sdk/README.md` for full examples.

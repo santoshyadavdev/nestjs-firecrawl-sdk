@@ -24,10 +24,10 @@ export class FirecrawlService {
    *
    * @see Firecrawl.scrape
    */
-  // `scrape` is overloaded in the SDK; expose the client's full overloaded type
-  // rather than `Parameters<>`, which would collapse to the last overload.
-  scrape: Firecrawl['scrape'] = (...args: any[]): any =>
-    (this.firecrawl.scrape as (...a: any[]) => unknown)(...args);
+  // Property (not method) to preserve the SDK's overloaded signatures;
+  // `Parameters<>` would collapse to the last overload.
+  scrape: Firecrawl['scrape'] = ((...args: any[]) =>
+    (this.firecrawl.scrape as Function).apply(this.firecrawl, args)) as Firecrawl['scrape'];
 
   /**
    * Start a crawl and poll until it finishes.
