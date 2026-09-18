@@ -13,11 +13,6 @@ permissions:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [lint, test, build, typecheck]
-    name: ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -36,4 +31,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec nx run-many -t ${{ matrix.target }}
+      - run: pnpm exec nx run-many -t lint --parallel=1
+      - run: pnpm exec nx run-many -t test --parallel=1
+      - run: pnpm exec nx run-many -t build --parallel=1
+      - run: pnpm exec nx run-many -t typecheck --parallel=1
