@@ -11,20 +11,18 @@ permissions:
   contents: read
 
 jobs:
-  main:
+  ci:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [lint, test, build, typecheck]
+    name: ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v7
         with:
           filter: tree:0
           fetch-depth: 0
-
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Configure Nx Agents and task distribution in .nx/ci-config.yaml
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#nx-cloud-start-nx-agents
-      # Connect your workspace by running "nx connect" and uncomment this line to enable task distribution
-      # - run: npx nx start-nx-agents
 
       - uses: pnpm/action-setup@v4
         with:
@@ -38,6 +36,4 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # Prepend any command with "nx record --" to record its logs to Nx Cloud
-      # - run: npx nx record -- echo Hello World
-      - run: pnpm exec nx run-many -t lint test build typecheck
+      - run: pnpm exec nx run-many -t ${{ matrix.target }}
