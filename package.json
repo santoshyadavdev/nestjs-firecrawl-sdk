@@ -7,13 +7,31 @@
     "packages/*"
   ],
   "scripts": {},
-  "dependencies": {},
+  "dependencies": {
+    "@mendable/firecrawl-js": "^4.40.0",
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.0"
+  },
   "devDependencies": {
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.0",
     "@nx/js": "23.2.1",
+    "@nx/nest": "23.2.1",
+    "@nx/oxlint": "23.2.1",
+    "@nx/vite": "23.2.1",
+    "@nx/vitest": "23.2.1",
     "@swc/helpers": "~0.5.18",
+    "@types/node": "^22.0.0",
+    "@vitest/coverage-v8": "~4.1.0",
     "nx": "23.2.1",
     "oxfmt": "^0.60.0",
+    "oxlint": "^1.75.0",
     "tslib": "^2.3.0",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vite": "^8.0.0",
+    "vitest": "~4.1.0"
   }
 }
