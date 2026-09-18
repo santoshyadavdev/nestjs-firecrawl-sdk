@@ -10,6 +10,21 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
+  "release": {
+    "projects": ["firecrawl-nestjs-sdk"],
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true
+        }
+      }
+    }
+  },
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
