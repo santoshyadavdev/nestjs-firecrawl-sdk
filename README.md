@@ -1,110 +1,257 @@
-# FirecrawlSdk
+# @santoshyadavdev/firecrawl-nestjs
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A NestJS wrapper around the [Firecrawl JS SDK](https://github.com/firecrawl/firecrawl/tree/main/apps/js-sdk) (`@mendable/firecrawl-js`). It lets you configure and inject a fully-typed Firecrawl client anywhere in your Nest application, with support for async configuration and multiple named clients.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Installation
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-
-## Generate a library
-
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
+```bash
+npm install @santoshyadavdev/firecrawl-nestjs @mendable/firecrawl-js
+# or
+pnpm add @santoshyadavdev/firecrawl-nestjs @mendable/firecrawl-js
 ```
 
-## Run tasks
+`@nestjs/common`, `@nestjs/core`, `reflect-metadata`, and `rxjs` are peer dependencies and are expected to already exist in your Nest app.
 
-To build the library use:
+## Quick start
 
-```sh
-npx nx build pkg1
+Register the module at the root of your app:
+
+```ts
+import { Module } from '@nestjs/common';
+import { FirecrawlModule } from '@santoshyadavdev/firecrawl-nestjs';
+
+@Module({
+  imports: [
+    FirecrawlModule.forRoot({
+      apiKey: process.env.FIRECRAWL_API_KEY,
+      isGlobal: true, // optional: inject anywhere without re-importing
+    }),
+  ],
+})
+export class AppModule {}
 ```
 
-To run any task with Nx use:
+Inject and use the service:
 
-```sh
-npx nx <target> <project-name>
+```ts
+import { Injectable } from '@nestjs/common';
+import { FirecrawlService, InjectFirecrawl } from '@santoshyadavdev/firecrawl-nestjs';
+
+@Injectable()
+export class ScraperService {
+  constructor(
+    @InjectFirecrawl() private readonly firecrawl: FirecrawlService
+  ) {}
+
+  scrapePage(url: string) {
+    return this.firecrawl.scrape(url, { formats: ['markdown'] });
+  }
+
+  crawlSite(url: string) {
+    return this.firecrawl.crawl(url, { limit: 50 });
+  }
+}
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+The service delegates the most commonly used methods of the underlying [`@mendable/firecrawl-js`](https://www.npmjs.com/package/@mendable/firecrawl-js) client:
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+| Category   | Delegated methods                                                                        |
+| ---------- | ---------------------------------------------------------------------------------------- |
+| Scrape     | `scrape`, `parse`                                                                         |
+| Crawl      | `crawl`, `startCrawl`, `getCrawlStatus`, `cancelCrawl`, `getCrawlErrors`, `getActiveCrawls` |
+| Batch      | `batchScrape`, `startBatchScrape`, `getBatchScrapeStatus`, `cancelBatchScrape`           |
+| Discovery  | `map`, `search`                                                                          |
+| Extract    | `extract`                                                                                |
+| Monitoring | `watcher`, `getConcurrency`, `getCreditUsage`, `getTokenUsage`                           |
 
-## Versioning and releasing
+For anything not delegated (agents, browser sessions, monitors, developer search, feedback, etc.), reach for the underlying client via `firecrawl.client`:
 
-To version and release the library use
-
-```
-npx nx release
-```
-
-Pass `--dry-run` to see what would happen without actually releasing the library.
-
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
-
-```sh
-npx nx sync
+```ts
+this.firecrawl.client.agent({ urls: ['https://example.com'], prompt: '...' });
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+## Usage examples
 
-```sh
-npx nx sync:check
+### Scrape
+
+```ts
+// Get markdown + a JSON extraction in one call.
+const doc = await this.firecrawl.scrape('https://example.com', {
+  formats: ['markdown', 'html'],
+  onlyMainContent: true,
+});
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
+### Crawl (async with polling)
 
-## Set up CI!
+```ts
+// Start a crawl and poll until it finishes.
+const job = await this.firecrawl.crawl('https://example.com', {
+  limit: 100,
+  scrapeOptions: { formats: ['markdown'] },
+});
 
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+// Or manage the lifecycle yourself.
+const { id } = await this.firecrawl.startCrawl('https://example.com', { limit: 100 });
+const status = await this.firecrawl.getCrawlStatus(id);
+const errors = await this.firecrawl.getCrawlErrors(id);
+await this.firecrawl.cancelCrawl(id);
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+### Batch scrape
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```ts
+const batch = await this.firecrawl.batchScrape(
+  ['https://a.com', 'https://b.com'],
+  { formats: ['markdown'] }
+);
 
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
+const { id } = await this.firecrawl.startBatchScrape(['https://a.com']);
+const status = await this.firecrawl.getBatchScrapeStatus(id);
+await this.firecrawl.cancelBatchScrape(id);
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Map & search
 
-## Install Nx Console
+```ts
+// Discover URLs on a site.
+const { links } = await this.firecrawl.map('https://example.com', {
+  includeSubdomains: true,
+  limit: 500,
+});
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+// Search the web and scrape each result.
+const results = await this.firecrawl.search('firecrawl nestjs', {
+  limit: 5,
+  scrapeOptions: { formats: ['markdown'] },
+});
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Extract structured data
 
-## Useful links
+```ts
+const extracted = await this.firecrawl.extract({
+  urls: ['https://example.com'],
+  prompt: 'Extract the product name and price',
+});
+```
 
-Learn more:
+### Watch a job
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```ts
+const watcher = this.firecrawl.watcher(id, { kind: 'crawl' });
+watcher.on('document', (doc) => console.log('scraped', doc));
+watcher.on('done', (state) => console.log('finished', state.status));
+watcher.on('error', (err) => console.error(err));
+```
 
-And join the Nx community:
+### Account usage
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```ts
+const concurrency = await this.firecrawl.getConcurrency();
+const credits = await this.firecrawl.getCreditUsage();
+const tokens = await this.firecrawl.getTokenUsage();
+```
+
+You can also inject the raw client directly:
+
+```ts
+import { Firecrawl, InjectFirecrawlClient } from '@santoshyadavdev/firecrawl-nestjs';
+
+@Injectable()
+export class RawService {
+  constructor(@InjectFirecrawlClient() private readonly client: Firecrawl) {}
+}
+```
+
+## Async configuration
+
+Configure the client using values resolved at runtime (e.g. from `@nestjs/config`):
+
+```ts
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { FirecrawlModule } from '@santoshyadavdev/firecrawl-nestjs';
+
+@Module({
+  imports: [
+    FirecrawlModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        apiKey: config.getOrThrow('FIRECRAWL_API_KEY'),
+        timeoutMs: 30_000,
+      }),
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+`forRootAsync` also supports `useClass` and `useExisting` with a factory implementing `FirecrawlOptionsFactory`:
+
+```ts
+import { FirecrawlModuleOptions, FirecrawlOptionsFactory } from '@santoshyadavdev/firecrawl-nestjs';
+
+@Injectable()
+export class FirecrawlConfig implements FirecrawlOptionsFactory {
+  createFirecrawlOptions(): FirecrawlModuleOptions {
+    return { apiKey: process.env.FIRECRAWL_API_KEY };
+  }
+}
+
+FirecrawlModule.forRootAsync({ useClass: FirecrawlConfig });
+```
+
+## Multiple named clients
+
+Register additional clients with a unique `name` (useful for multi-tenant apps or different API keys per feature):
+
+```ts
+@Module({
+  imports: [
+    FirecrawlModule.forRoot({ apiKey: process.env.FIRECRAWL_API_KEY }),
+    FirecrawlModule.forFeature({ apiKey: process.env.TENANT_A_KEY, name: 'tenant-a' }),
+    FirecrawlModule.forFeatureAsync({
+      name: 'tenant-b',
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        apiKey: config.getOrThrow('TENANT_B_KEY'),
+      }),
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+Inject a named client or service by passing the name to the decorator:
+
+```ts
+@Injectable()
+export class MultiTenantService {
+  constructor(
+    @InjectFirecrawl('tenant-a') private readonly tenantA: FirecrawlService,
+    @InjectFirecrawl('tenant-b') private readonly tenantB: FirecrawlService
+  ) {}
+}
+```
+
+## Configuration options
+
+| Option          | Type              | Description                                                        |
+| --------------- | ----------------- | ------------------------------------------------------------------ |
+| `apiKey`        | `string \| null`  | Firecrawl API key. Falls back to `FIRECRAWL_API_KEY`.              |
+| `apiUrl`        | `string \| null`  | API base URL. Falls back to `FIRECRAWL_API_URL` or the cloud URL.  |
+| `timeoutMs`     | `number`          | Per-request timeout in milliseconds.                               |
+| `maxRetries`    | `number`          | Max automatic retries for transient failures.                     |
+| `backoffFactor` | `number`          | Exponential backoff factor between retries.                        |
+| `name`          | `string`          | Unique name for registering/injecting multiple clients.           |
+| `isGlobal`      | `boolean`         | Register the module globally (`forRoot`/`forRootAsync`).           |
+
+## Running unit tests
+
+Run `nx test firecrawl-nestjs-sdk` to execute the unit tests via [Vitest](https://vitest.dev/).
+
+## License
+
+MIT
