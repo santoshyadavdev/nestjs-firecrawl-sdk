@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import type { Firecrawl } from '@mendable/firecrawl-js';
-import { FirecrawlService } from './firecrawl.service';
+import { Firecrawl } from '@mendable/firecrawl-js';
+import { FirecrawlService } from './firecrawl.service.js';
 
 type AnyFn = (...args: any[]) => any;
 
