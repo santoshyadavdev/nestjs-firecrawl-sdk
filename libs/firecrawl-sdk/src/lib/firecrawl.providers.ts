@@ -3,13 +3,13 @@ import { Firecrawl } from '@mendable/firecrawl-js';
 import {
   getFirecrawlClientToken,
   getFirecrawlServiceToken,
-} from './firecrawl.constants.js';
+} from './firecrawl.constants';
 import type {
   FirecrawlModuleAsyncOptions,
   FirecrawlModuleOptions,
   FirecrawlOptionsFactory,
-} from './firecrawl.interfaces.js';
-import { FirecrawlService } from './firecrawl.service.js';
+} from './firecrawl.interfaces';
+import { FirecrawlService } from './firecrawl.service';
 
 /**
  * Create a Firecrawl client instance from module options.

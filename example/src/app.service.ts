@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   FirecrawlService,
   InjectFirecrawl,
-} from '@santoshyadavdev/firecrawl-nestjs';
+} from '@santoshyadavdev/firecrawl-sdk';
 
 @Injectable()
 export class AppService {

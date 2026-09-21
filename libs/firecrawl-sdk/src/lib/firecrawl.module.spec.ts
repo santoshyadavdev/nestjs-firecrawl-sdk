@@ -1,20 +1,20 @@
 import { Test } from '@nestjs/testing';
 import { Firecrawl } from '@mendable/firecrawl-js';
 import { describe, expect, it } from 'vitest';
-import { FirecrawlModule } from './firecrawl.module.js';
-import { FirecrawlService } from './firecrawl.service.js';
+import { FirecrawlModule } from './firecrawl.module';
+import { FirecrawlService } from './firecrawl.service';
 import {
   InjectFirecrawl,
   InjectFirecrawlClient,
-} from './firecrawl.decorators.js';
+} from './firecrawl.decorators';
 import {
   getFirecrawlClientToken,
   getFirecrawlServiceToken,
-} from './firecrawl.constants.js';
+} from './firecrawl.constants';
 import type {
   FirecrawlModuleOptions,
   FirecrawlOptionsFactory,
-} from './firecrawl.interfaces.js';
+} from './firecrawl.interfaces';
 
 describe('FirecrawlModule', () => {
   describe('forRoot', () => {
