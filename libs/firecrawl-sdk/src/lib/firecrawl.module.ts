@@ -3,11 +3,11 @@ import type { DynamicModule } from '@nestjs/common';
 import type {
   FirecrawlModuleAsyncOptions,
   FirecrawlModuleOptions,
-} from './firecrawl.interfaces';
+} from './firecrawl.interfaces.js';
 import {
   createFirecrawlAsyncProviders,
   createFirecrawlProviders,
-} from './firecrawl.providers';
+} from './firecrawl.providers.js';
 
 /**
  * NestJS module wrapping the Firecrawl JS SDK.

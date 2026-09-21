@@ -1,0 +1,51 @@
+<header>
+  <h1>Research Paper App</h1>
+  <p>Search and scrape research papers using the Firecrawl-powered API</p>
+</header>
+
+<main>
+  <section class="controls">
+    <div class="input-group">
+      <select [(ngModel)]="mode">
+        <option value="search">Search</option>
+        <option value="scrape">Scrape URL</option>
+        <option value="crawl">Crawl Site</option>
+        <option value="map">Map URLs</option>
+      </select>
+      <input
+        type="text"
+        [(ngModel)]="query"
+        [placeholder]="mode === 'search' ? 'Search for research papers...' : 'Enter URL...'"
+        (keydown.enter)="submit()"
+      />
+      <button (click)="submit()" [disabled]="loading">
+        {{ loading ? 'Loading...' : 'Go' }}
+      </button>
+    </div>
+  </section>
+
+  @if (error) {
+    <section class="error">{{ error }}</section>
+  }
+
+  @if (result) {
+    <section class="results">
+      <h2>Results</h2>
+      @if (result.web) {
+        @for (item of result.web; track item.url) {
+          <article class="result-card">
+            <h3><a [href]="item.url" target="_blank" rel="noopener">{{ item.title }}</a></h3>
+            <cite>{{ item.url }}</cite>
+            @if (item.description) {
+              <p>{{ item.description | slice:0:300 }}{{ item.description.length > 300 ? '...' : '' }}</p>
+            }
+          </article>
+        }
+      } @else {
+        <pre>{{ result | json }}</pre>
+      }
+    </section>
+  }
+</main>
+
+<router-outlet />
