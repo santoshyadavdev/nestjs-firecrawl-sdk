@@ -250,7 +250,7 @@ export class MultiTenantService {
 
 ## Running unit tests
 
-Run `nx test firecrawl-nestjs-sdk` to execute the unit tests via [Vitest](https://vitest.dev/).
+Run `nx test firecrawl-sdk` to execute the unit tests via [Vitest](https://vitest.dev/).
 
 ## License
 

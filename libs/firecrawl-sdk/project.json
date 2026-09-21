@@ -1,0 +1,32 @@
+{
+  "name": "firecrawl-sdk",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/firecrawl-sdk/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/firecrawl-sdk",
+        "tsConfig": "libs/firecrawl-sdk/tsconfig.lib.json",
+        "packageJson": "libs/firecrawl-sdk/package.json",
+        "main": "libs/firecrawl-sdk/src/index.ts",
+        "assets": ["libs/firecrawl-sdk/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}
