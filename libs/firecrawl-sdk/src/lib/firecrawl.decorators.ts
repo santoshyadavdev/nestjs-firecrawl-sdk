@@ -2,7 +2,7 @@ import { Inject } from '@nestjs/common';
 import {
   getFirecrawlClientToken,
   getFirecrawlServiceToken,
-} from './firecrawl.constants.js';
+} from './firecrawl.constants';
 
 /**
  * Inject a named {@link FirecrawlService}. Omit `name` for the default client.

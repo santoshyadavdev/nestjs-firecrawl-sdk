@@ -1,19 +1,19 @@
-export { FirecrawlModule } from './lib/firecrawl.module.js';
-export { FirecrawlService } from './lib/firecrawl.service.js';
+export { FirecrawlModule } from './lib/firecrawl.module';
+export { FirecrawlService } from './lib/firecrawl.service';
 export {
   InjectFirecrawl,
   InjectFirecrawlClient,
-} from './lib/firecrawl.decorators.js';
+} from './lib/firecrawl.decorators';
 export {
   FIRECRAWL_DEFAULT_CLIENT,
   getFirecrawlClientToken,
   getFirecrawlServiceToken,
-} from './lib/firecrawl.constants.js';
+} from './lib/firecrawl.constants';
 export type {
   FirecrawlModuleOptions,
   FirecrawlModuleAsyncOptions,
   FirecrawlOptionsFactory,
-} from './lib/firecrawl.interfaces.js';
+} from './lib/firecrawl.interfaces';
 
 // Re-export the underlying SDK so consumers get types without a second import.
 export { Firecrawl } from '@mendable/firecrawl-js';
