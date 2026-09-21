@@ -1,9 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"],
-  "references": [
-    {
-      "path": "../libs/firecrawl-sdk/tsconfig.lib.json"
-    }
-  ]
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
 }
