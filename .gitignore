@@ -51,3 +51,5 @@ vitest.config.*.timestamp*
 .angular
 
 __screenshots__/
+
+test-output
