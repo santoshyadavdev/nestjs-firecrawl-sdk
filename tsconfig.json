@@ -5,6 +5,9 @@
   "references": [
     {
       "path": "./libs/firecrawl-sdk"
+    },
+    {
+      "path": "./example"
     }
   ]
 }
