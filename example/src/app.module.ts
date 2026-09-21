@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FirecrawlModule } from '@santoshyadavdev/firecrawl-nestjs';
+import { FirecrawlModule } from '@santoshyadavdev/firecrawl-sdk';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 

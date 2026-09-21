@@ -23,6 +23,13 @@
         "assets": ["libs/firecrawl-sdk/*.md"]
       }
     },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/firecrawl-sdk",
+        "command": "tsc --build tsconfig.lib.json --emitDeclarationOnly"
+      }
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"

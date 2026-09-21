@@ -1,13 +1,13 @@
-# @santoshyadavdev/firecrawl-nestjs
+# @santoshyadavdev/firecrawl-sdk
 
 A NestJS wrapper around the [Firecrawl JS SDK](https://github.com/firecrawl/firecrawl/tree/main/apps/js-sdk) (`@mendable/firecrawl-js`). It lets you configure and inject a fully-typed Firecrawl client anywhere in your Nest application, with support for async configuration and multiple named clients.
 
 ## Installation
 
 ```bash
-npm install @santoshyadavdev/firecrawl-nestjs @mendable/firecrawl-js
+npm install @santoshyadavdev/firecrawl-sdk @mendable/firecrawl-js
 # or
-pnpm add @santoshyadavdev/firecrawl-nestjs @mendable/firecrawl-js
+pnpm add @santoshyadavdev/firecrawl-sdk @mendable/firecrawl-js
 ```
 
 `@nestjs/common`, `@nestjs/core`, `reflect-metadata`, and `rxjs` are peer dependencies and are expected to already exist in your Nest app.
@@ -18,7 +18,7 @@ Register the module at the root of your app:
 
 ```ts
 import { Module } from '@nestjs/common';
-import { FirecrawlModule } from '@santoshyadavdev/firecrawl-nestjs';
+import { FirecrawlModule } from '@santoshyadavdev/firecrawl-sdk';
 
 @Module({
   imports: [
@@ -35,7 +35,7 @@ Inject and use the service:
 
 ```ts
 import { Injectable } from '@nestjs/common';
-import { FirecrawlService, InjectFirecrawl } from '@santoshyadavdev/firecrawl-nestjs';
+import { FirecrawlService, InjectFirecrawl } from '@santoshyadavdev/firecrawl-sdk';
 
 @Injectable()
 export class ScraperService {
@@ -156,7 +156,7 @@ const tokens = await this.firecrawl.getTokenUsage();
 You can also inject the raw client directly:
 
 ```ts
-import { Firecrawl, InjectFirecrawlClient } from '@santoshyadavdev/firecrawl-nestjs';
+import { Firecrawl, InjectFirecrawlClient } from '@santoshyadavdev/firecrawl-sdk';
 
 @Injectable()
 export class RawService {
@@ -171,7 +171,7 @@ Configure the client using values resolved at runtime (e.g. from `@nestjs/config
 ```ts
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { FirecrawlModule } from '@santoshyadavdev/firecrawl-nestjs';
+import { FirecrawlModule } from '@santoshyadavdev/firecrawl-sdk';
 
 @Module({
   imports: [
@@ -191,7 +191,7 @@ export class AppModule {}
 `forRootAsync` also supports `useClass` and `useExisting` with a factory implementing `FirecrawlOptionsFactory`:
 
 ```ts
-import { FirecrawlModuleOptions, FirecrawlOptionsFactory } from '@santoshyadavdev/firecrawl-nestjs';
+import { FirecrawlModuleOptions, FirecrawlOptionsFactory } from '@santoshyadavdev/firecrawl-sdk';
 
 @Injectable()
 export class FirecrawlConfig implements FirecrawlOptionsFactory {
