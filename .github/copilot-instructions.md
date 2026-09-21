@@ -4,7 +4,7 @@ This is an Nx monorepo that publishes `@santoshyadavdev/firecrawl-nestjs` — a 
 
 ## Architecture
 
-- `libs/firecrawl-nestjs-sdk/` — the published library.
+- `libs/firecrawl-sdk/` — the published library.
   - `firecrawl.module.ts` — `FirecrawlModule` with `forRoot`/`forRootAsync` (default or named client) and `forFeature`/`forFeatureAsync` (additional named clients).
   - `firecrawl.service.ts` — `FirecrawlService`, an injectable that exposes the raw client via `.client` and delegates common methods (scrape, crawl, batch, map, search, extract, parse, watcher, usage).
   - `firecrawl.providers.ts` — builds client + service providers; the single place that maps module options to `new Firecrawl({...})`.
@@ -26,7 +26,7 @@ This repo uses **pnpm** and **Nx** (Node 24 in CI).
 ```bash
 pnpm install --frozen-lockfile
 pnpm exec nx run-many -t lint test build typecheck   # everything
-pnpm exec nx test firecrawl-nestjs-sdk               # library unit tests (Vitest)
+pnpm exec nx test firecrawl-sdk               # library unit tests (Vitest)
 ```
 
 ## Usage

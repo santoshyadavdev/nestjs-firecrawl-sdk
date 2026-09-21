@@ -31,7 +31,11 @@
     "oxlint": "^1.75.0",
     "tslib": "^2.3.0",
     "typescript": "~6.0.3",
+    "verdaccio": "^6.3.2",
     "vite": "^8.0.0",
     "vitest": "~4.1.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

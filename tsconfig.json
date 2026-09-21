@@ -4,7 +4,7 @@
   "files": [],
   "references": [
     {
-      "path": "./libs/firecrawl-nestjs-sdk"
+      "path": "./libs/firecrawl-sdk"
     }
   ]
 }

@@ -4,10 +4,10 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: '../../node_modules/.vite/libs/firecrawl-nestjs-sdk',
+  cacheDir: '../../node_modules/.vite/libs/firecrawl-sdk',
   plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
-    name: 'firecrawl-nestjs-sdk',
+    name: 'firecrawl-sdk',
     watch: false,
     globals: true,
     environment: 'node',
@@ -15,7 +15,7 @@ export default defineConfig(() => ({
     passWithNoTests: true,
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/libs/firecrawl-nestjs-sdk',
+      reportsDirectory: '../../coverage/libs/firecrawl-sdk',
       provider: 'v8' as const,
     },
   },

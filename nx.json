@@ -11,8 +11,9 @@
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
   "release": {
-    "projects": ["firecrawl-nestjs-sdk"],
+    "projects": ["firecrawl-sdk"],
     "version": {
+      "preVersionCommand": "pnpm dlx nx run-many -t build",
       "conventionalCommits": true
     },
     "changelog": {
@@ -54,5 +55,12 @@
         "testMode": "watch"
       }
     }
-  ]
+  ],
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  }
 }
