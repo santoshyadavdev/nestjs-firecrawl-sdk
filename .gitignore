@@ -46,3 +46,8 @@ Thumbs.db
 .claude/settings.local.json
 
 vitest.config.*.timestamp*
+
+.env
+.angular
+
+__screenshots__/
