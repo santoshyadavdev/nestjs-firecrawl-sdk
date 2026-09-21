@@ -1,13 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "composite": true,
+    "outDir": "../../dist/out-tsc",
     "declaration": true,
     "emitDeclarationOnly": false,
-    "noEmitOnError": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "module": "node16",
+    "moduleResolution": "node16",
     "types": ["node"],
     "target": "es2021",
     "experimentalDecorators": true,
