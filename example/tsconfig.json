@@ -20,18 +20,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "customConditions": ["@firecrawl-sdk/source"],
     "rootDir": "./src",
-    "types": ["node"],
-    "paths": {
-      "@santoshyadavdev/firecrawl-sdk": ["../libs/firecrawl-sdk/src/index.ts"]
-    }
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "test", "**/*.spec.ts"],
-  "references": [
-    {
-      "path": "../libs/firecrawl-sdk"
-    }
-  ]
+  "exclude": ["node_modules", "dist", "test", "**/*.spec.ts"]
 }
