@@ -1,3 +1,14 @@
+## 1.0.0 (2026-09-22)
+
+### Features
+
+- **NestJS 12 support** — peer dependency now accepts `@nestjs/common` and `@nestjs/core` v10, v11, and v12.
+
+### Chores
+
+- Moved example app to Nx workspace structure.
+- Fixed build and resolved pnpm peer-dependency warnings.
+
 ## 0.1.0 (2026-09-21)
 
 ### Features
