@@ -6,7 +6,7 @@
 <main>
   <section class="controls">
     <div class="input-group">
-      <select [(ngModel)]="mode">
+      <select [ngModel]="mode()" (ngModelChange)="mode.set($event)">
         <option value="search">Search</option>
         <option value="scrape">Scrape URL</option>
         <option value="crawl">Crawl Site</option>
@@ -14,25 +14,25 @@
       </select>
       <input
         type="text"
-        [(ngModel)]="query"
-        [placeholder]="mode === 'search' ? 'Search for research papers...' : 'Enter URL...'"
+        [ngModel]="query()" (ngModelChange)="query.set($event)"
+        [placeholder]="mode() === 'search' ? 'Search for research papers...' : 'Enter URL...'"
         (keydown.enter)="submit()"
       />
-      <button (click)="submit()" [disabled]="loading">
-        {{ loading ? 'Loading...' : 'Go' }}
+      <button (click)="submit()" [disabled]="loading()">
+        {{ loading() ? 'Loading...' : 'Go' }}
       </button>
     </div>
   </section>
 
-  @if (error) {
-    <section class="error">{{ error }}</section>
+  @if (error()) {
+    <section class="error">{{ error() }}</section>
   }
 
-  @if (result) {
+  @if (result()) {
     <section class="results">
       <h2>Results</h2>
-      @if (result.web) {
-        @for (item of result.web; track item.url) {
+      @if (result().web) {
+        @for (item of result().web; track item.url) {
           <article class="result-card">
             <h3><a [href]="item.url" target="_blank" rel="noopener">{{ item.title }}</a></h3>
             <cite>{{ item.url }}</cite>
@@ -42,7 +42,7 @@
           </article>
         }
       } @else {
-        <pre>{{ result | json }}</pre>
+        <pre>{{ result() | json }}</pre>
       }
     </section>
   }

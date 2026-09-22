@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { JsonPipe, SlicePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,44 +11,44 @@ import { FirecrawlApiService } from './firecrawl-api.service';
   styleUrl: './app.css',
 })
 export class App {
-  mode = 'search';
-  query = '';
-  loading = false;
-  result: any = null;
-  error = '';
+  mode = signal('search');
+  query = signal('');
+  loading = signal(false);
+  result = signal<any>(null);
+  error = signal('');
 
   constructor(private readonly api: FirecrawlApiService) {}
 
   submit() {
-    if (!this.query.trim()) return;
+    if (!this.query().trim()) return;
 
-    this.loading = true;
-    this.error = '';
-    this.result = null;
+    this.loading.set(true);
+    this.error.set('');
+    this.result.set(null);
 
     let request$;
-    switch (this.mode) {
+    switch (this.mode()) {
       case 'scrape':
-        request$ = this.api.scrape(this.query);
+        request$ = this.api.scrape(this.query());
         break;
       case 'crawl':
-        request$ = this.api.crawl(this.query);
+        request$ = this.api.crawl(this.query());
         break;
       case 'map':
-        request$ = this.api.map(this.query);
+        request$ = this.api.map(this.query());
         break;
       default:
-        request$ = this.api.search(this.query);
+        request$ = this.api.search(this.query());
     }
 
     request$.subscribe({
       next: (data) => {
-        this.result = data;
-        this.loading = false;
+        this.result.set(data);
+        this.loading.set(false);
       },
       error: (err) => {
-        this.error = err.error?.message ?? err.message ?? 'Request failed';
-        this.loading = false;
+        this.error.set(err.error?.message ?? err.message ?? 'Request failed');
+        this.loading.set(false);
       },
     });
   }
