@@ -4,7 +4,7 @@ A NestJS wrapper around the [Firecrawl JS SDK](https://github.com/firecrawl/fire
 
 ## Demo
 
-https://github.com/santoshyadavdev/nestjs-firecrawl-sdk/blob/main/firecrawl-app.mp4
+https://github.com/santoshyadavdev/nestjs-firecrawl-sdk/blob/main/firecrawl-demo.mp4
 
 ## Installation
 
