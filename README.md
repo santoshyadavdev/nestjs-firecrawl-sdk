@@ -2,6 +2,10 @@
 
 A NestJS wrapper around the [Firecrawl JS SDK](https://github.com/firecrawl/firecrawl/tree/main/apps/js-sdk) (`@mendable/firecrawl-js`). It lets you configure and inject a fully-typed Firecrawl client anywhere in your Nest application, with support for async configuration and multiple named clients.
 
+## Demo
+
+https://github.com/santoshyadavdev/nestjs-firecrawl-sdk/blob/main/firecrawl-app.mp4
+
 ## Installation
 
 ```bash
@@ -247,7 +251,42 @@ export class MultiTenantService {
 | `backoffFactor` | `number`          | Exponential backoff factor between retries.                        |
 | `name`          | `string`          | Unique name for registering/injecting multiple clients.           |
 | `isGlobal`      | `boolean`         | Register the module globally (`forRoot`/`forRootAsync`).           |
+## Running locally
 
+### Prerequisites
+
+```bash
+pnpm install
+```
+
+### NestJS API (example app)
+
+```bash
+# Build the SDK and example app
+pnpm exec nx build example
+
+# Copy the built SDK into node_modules for runtime resolution
+mkdir -p example/node_modules/@santoshyadavdev && cp -r dist/libs/firecrawl-sdk example/node_modules/@santoshyadavdev/firecrawl-sdk
+
+# Start the API on http://localhost:3000
+cd example && node dist/main.js
+```
+
+Create an `example/.env` file with your Firecrawl API key:
+
+```
+FIRECRAWL_API_KEY=your-api-key
+```
+
+### Angular UI (research-paper-app)
+
+In a separate terminal:
+
+```bash
+pnpm exec nx serve research-paper-app
+```
+
+The UI runs on http://localhost:4200 and proxies API requests to the NestJS backend.
 ## Running unit tests
 
 Run `nx test firecrawl-sdk` to execute the unit tests via [Vitest](https://vitest.dev/).
